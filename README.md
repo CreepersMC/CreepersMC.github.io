@@ -1,2 +1,2 @@
-# CreepyServer.github.io
-CreepyServer official site. Also stores resources for CreepyServer.
+# creepersmc.github.io
+CreepersMC official site source code.
