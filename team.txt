@@ -18,6 +18,9 @@
                     teams0.add(team);
                 }
             }
+            for(int j = minTeamCount; j < teams0.size(); j++) {
+                teams0.add(new Team(new ArrayList<>()));
+            }
             final List<UUID> players0 = new ArrayList<>(players);
             while(!players0.isEmpty()) {
                 teams0.peek().members.add(players0.remove(players0.size() - 1));
