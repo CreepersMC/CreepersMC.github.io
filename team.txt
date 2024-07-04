@@ -1,0 +1,35 @@
+        /* Players who have already selected a team have their uuids stored in here. */
+        Team[] selected = new Team[4];
+        /* Players who have not selected teams here */
+        List<UUID> players = Collections.EMPTY_LIST;
+        int minTeamCount = 0;
+        for(Team team : selected) {
+            if(!team.members().isEmpty()) {
+                minTeamCount++;
+            }
+        }
+        ArrayList<Distribution> distributions = new ArrayList<>();
+        for(int teamCount = minTeamCount; teamCount < 4; teamCount++) {
+            PriorityQueue<Team> teams0 = new PriorityQueue<>((t1, t2) -> {
+                return Integer.compare(t1.members().size(), t2.members().size());
+            });
+            for(Team team : selected) {
+                if(!team.members().isEmpty()) {
+                    teams0.add(team);
+                }
+            }
+            final List<UUID> players0 = new ArrayList<>(players);
+            while(!players0.isEmpty()) {
+                teams0.peek().members.add(players0.remove(players0.size() - 1));
+            }
+            int minTeamPlayers = 4, maxTeamPlayers = 0;
+            for(Team team : teams0) {
+                maxTeamPlayers = Math.max(team.members().size(), maxTeamPlayers);
+                minTeamPlayers = Math.max(team.members().size(), minTeamPlayers);
+            }
+            distributions.add(new Distribution(new ArrayList<>(teams0), 1d * minTeamPlayers / maxTeamPlayers));
+        }
+        distributions.sort((d1, d2) -> {
+            return Double.compare(d1.unbalanceIndex(), d2.unbalanceIndex());
+        });
+        distributions.get(0);
